@@ -12,7 +12,7 @@ router.post('/', withAuth, async (req, res) => {
     } catch (err) {
         res.status(400).json(err)
     }
-})
+});
 
 router.delete('/:id', withAuth, async (req, res) => {
     try {
@@ -23,7 +23,7 @@ router.delete('/:id', withAuth, async (req, res) => {
             }
         })
         if (!entryData) {
-            res.status(404).json({ message: "No project found with this id!"})
+            res.status(404).json({ message: "No entry found with this id!"})
             return
         }
 
@@ -31,6 +31,6 @@ router.delete('/:id', withAuth, async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-})
+});
 
 module.exports = router

@@ -5,7 +5,7 @@ const newFormHandler = async (event) => {
     const entry_body = document.querySelector("#entry-body").value.trim();
   
     if (title && entry_body) {
-      const response = await fetch("/api/projects", {
+      const response = await fetch("/api/entries", {
         method: "POST",
         body: JSON.stringify({ title, entry_body }),
         headers: {
@@ -16,7 +16,7 @@ const newFormHandler = async (event) => {
       if (response.ok) {
         document.location.replace("/profile");
       } else {
-        alert("Failed to create project");
+        alert("Failed to create blog");
       }
     }
   };
@@ -25,14 +25,14 @@ const newFormHandler = async (event) => {
     if (event.target.hasAttribute("data-id")) {
       const id = event.target.getAttribute("data-id");
   
-      const response = await fetch(`/api/projects/${id}`, {
+      const response = await fetch(`/api/entries/${id}`, {
         method: "DELETE",
       });
   
       if (response.ok) {
         document.location.replace("/profile");
       } else {
-        alert("Failed to delete project");
+        alert("Failed to delete post");
       }
     }
   };
