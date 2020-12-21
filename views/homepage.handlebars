@@ -10,14 +10,14 @@
     <p>
       <span for="img" aria-label="money">💲</span>
       <!-- Pass needed_funding value to the helper function -->
-      <span class="dollar-amount">{{format_amount enrty.needed_funding}}</span>
+      <span class="dollar-amount">{{format_amount enrty.date_created}}</span>
       needed!
     </p>
     <p>Created by {{entry.user.name}} on {{format_date entry.date_created}}</p>
   </div>
   <div class="col-md-7">
     <p>
-      {{entry.description}}
+      {{entry.body}}
     </p>
   </div>
 </div>
