@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { Project, User, Entry } = require('../models');
+const { Project, User } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
   try {
     // Get all projects and JOIN with user data
-    const entryData = await Entry.findAll({
+    const projectData = await Project.findAll({
       include: [
         {
           model: User,
@@ -15,11 +15,11 @@ router.get('/', async (req, res) => {
     });
 
     // Serialize data so the template can read it
-    const entries = entryData.map((entry) => entry.get({ plain: true }));
+    const projects = projectData.map((project) => project.get({ plain: true }));
 
     // Pass serialized data and session flag into template
     res.render('homepage', { 
-      entry, 
+      projects, 
       logged_in: req.session.logged_in 
     });
   } catch (err) {
@@ -27,9 +27,9 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/entry/:id', async (req, res) => {
+router.get('/project/:id', async (req, res) => {
   try {
-    const projectData = await Entry.findByPk(req.params.id, {
+    const projectData = await Project.findByPk(req.params.id, {
       include: [
         {
           model: User,
@@ -38,10 +38,10 @@ router.get('/entry/:id', async (req, res) => {
       ],
     });
 
-    const entry = entryData.get({ plain: true });
+    const project = projectData.get({ plain: true });
 
-    res.render('entry', {
-      ...entry,
+    res.render('project', {
+      ...project,
       logged_in: req.session.logged_in
     });
   } catch (err) {
@@ -50,7 +50,7 @@ router.get('/entry/:id', async (req, res) => {
 });
 
 // Use withAuth middleware to prevent access to route
-router.get('/entry', withAuth, async (req, res) => {
+router.get('/profile', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
@@ -60,6 +60,7 @@ router.get('/entry', withAuth, async (req, res) => {
 
     const user = userData.get({ plain: true });
 
+//this renders the profile.handlebars page.--> need to change code in profile to show that users blog posts
     res.render('profile', {
       ...user,
       logged_in: true
